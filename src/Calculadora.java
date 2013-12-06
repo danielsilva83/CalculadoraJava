@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import widgets.BotaoIgual;
 import widgets.BotaoLimpar;
 import widgets.BotaoNumero;
 import widgets.BotaoOperacao;
@@ -19,6 +20,16 @@ import widgets.BotaoOperacao;
 public class Calculadora extends JFrame implements ActionListener {
 
     JLabel lblTelaVisor;
+    
+    /**
+     * Buffer contendo um valor armazenado
+     */
+    double buffer = 0;
+    
+    /**
+     * Último botão de operação clicado
+     */
+    String lastOperation = "";
     
     public Calculadora() {
 
@@ -127,7 +138,7 @@ public class Calculadora extends JFrame implements ActionListener {
         botaoClear.placeIn(botaoDiv, "right");
         painel.add( botaoClear );
         
-        BotaoOperacao botaoEqual = new BotaoOperacao("=", this, "equal");
+        BotaoIgual botaoEqual = new BotaoIgual("=", this);
         botaoEqual.setHeight( botaoEqual.getHeight() * 3 + botaoEqual.getPadding() *2 );
         botaoEqual.placeIn(botaoClear, "bottom");
         painel.add( botaoEqual );
@@ -135,26 +146,88 @@ public class Calculadora extends JFrame implements ActionListener {
         return painel;
     }
 
+    /**
+     * Executa a ação, dependendo do botão pressionado
+     */
     public void actionPerformed(ActionEvent ev) {
         
+    	/**
+    	 * Valor atualmente exibido no visor
+    	 */
+    	double valor = Double.parseDouble( lblTelaVisor.getText() );
+    	
         switch ( ev.getActionCommand() ) {
         case "botaonumero":
             /*
              * Quando um botão de número é pressionado, só precisamos
              * atualizar o visor com este.
              */
-            BotaoNumero botao = (BotaoNumero) ev.getSource();
-            String texto = lblTelaVisor.getText();
-            double valor = Double.parseDouble( texto );
-            valor = valor * 10 + botao.getNumber(); //*10 para "saltar" uma casa à esquerda
+            BotaoNumero botaoNum = (BotaoNumero) ev.getSource();
+            valor = valor * 10 + botaoNum.getNumber(); //*10 para "saltar" uma casa à esquerda
             
             lblTelaVisor.setText( String.valueOf(valor) );
             break;
 
+        case "botaooperacao":
+            BotaoOperacao botaoOpe = (BotaoOperacao) ev.getSource();
+
+        	calcula();
+        	
+        	//se o buffer estiver zerado, joga o valor do visor para lá e zera o vizor
+        	buffer = valor;
+        	lblTelaVisor.setText( String.valueOf(0.0) );
+            
+            //guarda a operação escolhida
+            lastOperation = botaoOpe.getOperation();
+            
+            break;
+
+        case "botaoigual":
+    		calcula();
+        	break;
+
+        case "botaolimpar":
+    		//limpa tudo
+        	buffer = 0;
+        	lastOperation = "";
+        	lblTelaVisor.setText( String.valueOf(0.0) );
+        	break;
+
         default:
-            //dop nothing
+            //do nothing
             break;
         }
+    }
+    
+    private void calcula() {
+    	/**
+    	 * Valor atualmente exibido no visor
+    	 */
+    	double valor = Double.parseDouble( lblTelaVisor.getText() );
+    	double resultado = 0;
+
+    	if ( buffer != 0 && lastOperation != "" ) {
+    		switch (lastOperation) {
+			case "sum":
+				resultado = buffer + valor;
+				break;
+			case "sub":
+				resultado = buffer - valor;
+				break;
+			case "mult":
+				resultado = buffer * valor;
+				break;
+			case "div":
+				resultado = buffer / valor;
+				break;
+			}
+
+			lblTelaVisor.setText( String.valueOf(resultado) );
+
+        	//ao final, reseta o buffer e lastOperation
+        	buffer = 0;
+        	lastOperation = "";    		
+    	}
     }
 
 }
