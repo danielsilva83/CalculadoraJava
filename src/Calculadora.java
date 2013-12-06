@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,14 +40,23 @@ public class Calculadora extends JFrame implements ActionListener {
         JPanel painel = new JPanel();
         painel.setLayout( null );
         
-        lblTelaVisor = new JLabel( "0");
+    	/*
+    	 * Adiciona o visor
+    	 */
+        lblTelaVisor = new JLabel( "0.0");
         lblTelaVisor.setBounds( 2, 25, 480, 80 );
         lblTelaVisor.setBackground( Color.GREEN );
         lblTelaVisor.setForeground( Color.BLUE );
-        lblTelaVisor.setFont( new Font("Arial", Font.BOLD, 70) );
+        lblTelaVisor.setFont( new Font("Monospace", Font.BOLD, 70) );
+        lblTelaVisor.setHorizontalAlignment(JLabel.RIGHT);
         lblTelaVisor.setBorder( BorderFactory.createEtchedBorder() );   
         painel.add( lblTelaVisor );
         
+        /*
+         * Adiciona os botões de números,
+         * Note que apenas o primeiro botão tem uma posuição fixa, 
+         * todos os demais fica relativos à um anterior.
+         */
         BotaoNumero botao7 = new BotaoNumero(7, this);
         botao7.setBounds(0, 110, botao7.getWidth(), botao7.getHeight());
         painel.add( botao7 );
@@ -86,25 +94,27 @@ public class Calculadora extends JFrame implements ActionListener {
         painel.add( botao3 );
 
         BotaoNumero botao0 = new BotaoNumero(0, this);
+        botao0.setWidth( botao0.getWidth() *2 + botao0.getPadding() );	//usa o espaço de dois botões
         botao0.placeIn(botao1, "bottom");
         painel.add( botao0 );
 
         return painel;
     }
 
-    public void actionPerformed(ActionEvent arg0) {
-        if( arg0.getActionCommand().equals( "Botao0" ) ) {
-            // novoJogador();
-        } else if ( arg0.getActionCommand().equals( "Botao8" ) ) {
+    public void actionPerformed(ActionEvent ev) {
+    	
+        if( ev.getActionCommand().equals( "botaonumero" ) ) {
+        	/*
+        	 * Quando um botão de número é pressionado, só precisamos
+        	 * atualizar o visor com este.
+        	 */
+            BotaoNumero botao = (BotaoNumero) ev.getSource();
             String texto = lblTelaVisor.getText();
             double valor = Double.parseDouble( texto );
-            valor = valor*10+8;
-            lblTelaVisor.setText( ""+valor );
-        } else if ( arg0.getActionCommand().equals( "Botao9" ) ) {
-            String texto = lblTelaVisor.getText();
-            double valor = Double.parseDouble( texto );
-            valor = valor*10+9;
-            lblTelaVisor.setText( ""+valor );       }
+            valor = valor * 10 + botao.getNumber();	//*10 para "saltar" uma casa à esquerda
+            
+            lblTelaVisor.setText( String.valueOf(valor) );
+        }
     }
 
 }
