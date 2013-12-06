@@ -173,7 +173,10 @@ public class Calculadora extends JFrame implements ActionListener {
 
         	calcula();
         	
-        	//se o buffer estiver zerado, joga o valor do visor para lá e zera o vizor
+        	//tenho que garantir que o valor esteja atualizado
+        	valor = Double.parseDouble( lblTelaVisor.getText() );
+        	
+        	//joga o valor do visor para o buffer e zera o vizor
         	buffer = valor;
         	lblTelaVisor.setText( String.valueOf(0.0) );
             
