@@ -11,7 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import widgets.BotaoLimpar;
 import widgets.BotaoNumero;
+import widgets.BotaoOperacao;
 
 
 public class Calculadora extends JFrame implements ActionListener {
@@ -27,7 +29,7 @@ public class Calculadora extends JFrame implements ActionListener {
         
         container.add( getPainelCalculadora(), BorderLayout.CENTER );
 
-        setSize( 500, 600 );
+        setSize( 412, 360);
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
     }
 
@@ -44,10 +46,10 @@ public class Calculadora extends JFrame implements ActionListener {
     	 * Adiciona o visor
     	 */
         lblTelaVisor = new JLabel( "0.0");
-        lblTelaVisor.setBounds( 2, 25, 480, 80 );
+        lblTelaVisor.setBounds( 2, 6, 408, 60 );
         lblTelaVisor.setBackground( Color.GREEN );
         lblTelaVisor.setForeground( Color.BLUE );
-        lblTelaVisor.setFont( new Font("Monospace", Font.BOLD, 70) );
+        lblTelaVisor.setFont( new Font("Monospace", Font.BOLD, 50) );
         lblTelaVisor.setHorizontalAlignment(JLabel.RIGHT);
         lblTelaVisor.setBorder( BorderFactory.createEtchedBorder() );   
         painel.add( lblTelaVisor );
@@ -58,7 +60,7 @@ public class Calculadora extends JFrame implements ActionListener {
          * todos os demais fica relativos à um anterior.
          */
         BotaoNumero botao7 = new BotaoNumero(7, this);
-        botao7.setBounds(0, 110, botao7.getWidth(), botao7.getHeight());
+        botao7.setBounds(2, 78, botao7.getWidth(), botao7.getHeight());
         painel.add( botao7 );
 
         BotaoNumero botao8 = new BotaoNumero(8, this);
@@ -94,9 +96,41 @@ public class Calculadora extends JFrame implements ActionListener {
         painel.add( botao3 );
 
         BotaoNumero botao0 = new BotaoNumero(0, this);
-        botao0.setWidth( botao0.getWidth() *2 + botao0.getPadding() );	//usa o espaço de dois botões
+        botao0.setWidth( botao0.getWidth() *3 + botao0.getPadding() *2 );	//usa o espaço de três botões
         botao0.placeIn(botao1, "bottom");
         painel.add( botao0 );
+        
+        /*
+         * Adiciona os botões de operações.
+         * O posicionamento se dá da mesma forma do que com os de números.
+         */
+        BotaoOperacao botaoDiv = new BotaoOperacao("/", this, "div");
+        botaoDiv.placeIn(botao9, "right");
+        painel.add( botaoDiv );
+
+        BotaoOperacao botaoMult = new BotaoOperacao("*", this, "mult");
+        botaoMult.placeIn(botaoDiv, "bottom");
+        painel.add( botaoMult );
+
+        BotaoOperacao botaoSum = new BotaoOperacao("+", this, "sum");
+        botaoSum.placeIn(botaoMult, "bottom");
+        painel.add( botaoSum );
+
+        BotaoOperacao botaoSub = new BotaoOperacao("-", this, "sub");
+        botaoSub.placeIn(botaoSum, "bottom");
+        painel.add( botaoSub );
+        
+        /*
+         * Adiciona os botões de limpar e igual
+         */
+        BotaoLimpar botaoClear = new BotaoLimpar("C", this);
+        botaoClear.placeIn(botaoDiv, "right");
+        painel.add( botaoClear );
+        
+        BotaoOperacao botaoEqual = new BotaoOperacao("=", this, "equal");
+        botaoEqual.setHeight( botaoEqual.getHeight() * 3 + botaoEqual.getPadding() *2 );
+        botaoEqual.placeIn(botaoClear, "bottom");
+        painel.add( botaoEqual );
 
         return painel;
     }

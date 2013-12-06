@@ -15,15 +15,15 @@ import javax.swing.JButton;
  */
 public class Botao extends JButton {
 
-    private int width   = 100;
-    private int height  = 80;
+    private int width   = 80;
+    private int height  = 60;
     private int padding = 2;
 
 	public Botao(String text) {
 		super(text);
 		
         this.setForeground( Color.RED );
-        this.setFont( new Font("Arial", Font.BOLD, 70) );
+        this.setFont( new Font("Arial", Font.BOLD, 50) );
 	}
 
 	/**
