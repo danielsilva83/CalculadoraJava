@@ -202,6 +202,10 @@ public class Calculadora extends JFrame implements ActionListener {
         }
     }
     
+    /**
+     * Executa o cálculo pendente,
+     * com base nos dados disponíveis no buffer, lastOperation e lblTelaVisor
+     */
     private void calcula() {
     	/**
     	 * Valor atualmente exibido no visor
