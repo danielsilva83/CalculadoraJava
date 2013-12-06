@@ -9,15 +9,15 @@ import java.awt.event.ActionListener;
  *
  */
 public class BotaoOperacao extends Botao implements IBotao {
-	
-	private String operation;
+    
+    private String operation;
 
-	public BotaoOperacao(String text, ActionListener act, String operation) {
-		super(text);
+    public BotaoOperacao(String text, ActionListener act, String operation) {
+        super(text);
         this.operation = operation;
         
         this.setActionCommand("botaooperacao");
         this.addActionListener(act);
-	}
+    }
 
 }

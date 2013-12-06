@@ -42,9 +42,9 @@ public class Calculadora extends JFrame implements ActionListener {
         JPanel painel = new JPanel();
         painel.setLayout( null );
         
-    	/*
-    	 * Adiciona o visor
-    	 */
+        /*
+         * Adiciona o visor
+         */
         lblTelaVisor = new JLabel( "0.0");
         lblTelaVisor.setBounds( 2, 6, 408, 60 );
         lblTelaVisor.setBackground( Color.GREEN );
@@ -96,7 +96,7 @@ public class Calculadora extends JFrame implements ActionListener {
         painel.add( botao3 );
 
         BotaoNumero botao0 = new BotaoNumero(0, this);
-        botao0.setWidth( botao0.getWidth() *3 + botao0.getPadding() *2 );	//usa o espaço de três botões
+        botao0.setWidth( botao0.getWidth() *3 + botao0.getPadding() *2 );   //usa o espaço de três botões
         botao0.placeIn(botao1, "bottom");
         painel.add( botao0 );
         
@@ -136,18 +136,24 @@ public class Calculadora extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ev) {
-    	
-        if( ev.getActionCommand().equals( "botaonumero" ) ) {
-        	/*
-        	 * Quando um botão de número é pressionado, só precisamos
-        	 * atualizar o visor com este.
-        	 */
+        
+        switch ( ev.getActionCommand() ) {
+        case "botaonumero":
+            /*
+             * Quando um botão de número é pressionado, só precisamos
+             * atualizar o visor com este.
+             */
             BotaoNumero botao = (BotaoNumero) ev.getSource();
             String texto = lblTelaVisor.getText();
             double valor = Double.parseDouble( texto );
-            valor = valor * 10 + botao.getNumber();	//*10 para "saltar" uma casa à esquerda
+            valor = valor * 10 + botao.getNumber(); //*10 para "saltar" uma casa à esquerda
             
             lblTelaVisor.setText( String.valueOf(valor) );
+            break;
+
+        default:
+            //dop nothing
+            break;
         }
     }
 

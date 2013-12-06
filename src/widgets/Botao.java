@@ -19,19 +19,19 @@ public class Botao extends JButton {
     private int height  = 60;
     private int padding = 2;
 
-	public Botao(String text) {
-		super(text);
-		
+    public Botao(String text) {
+        super(text);
+        
         this.setForeground( Color.RED );
         this.setFont( new Font("Arial", Font.BOLD, 50) );
-	}
+    }
 
-	/**
-	 * Posiciona o botão, de acordo com a posição de outro botão e uma direçãi
-	 * 
-	 * @param botao Botão de referência para posicionar
-	 * @param position Posição, referente ao outro botão (top, bottom, left, right)
-	 */
+    /**
+     * Posiciona o botão, de acordo com a posição de outro botão e uma direçãi
+     * 
+     * @param botao Botão de referência para posicionar
+     * @param position Posição, referente ao outro botão (top, bottom, left, right)
+     */
     public void placeIn(IBotao botao, String position) {
         Rectangle bounds = botao.getBounds();
         
